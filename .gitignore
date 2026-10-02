@@ -1,0 +1,67 @@
+# ==============================
+# Python
+# ==============================
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# ==============================
+# Environment / Credentials
+# ==============================
+.env
+.env.*
+!.env.example
+
+# Snowflake / dbt credentials
+profiles.yml
+*.pem
+*.key
+*.p8
+
+# ==============================
+# Data files
+# ==============================
+# Keep project structure, but don't commit local datasets
+data/raw/*
+data/processed/*
+
+# Allow README placeholders if needed
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# ==============================
+# dbt generated files
+# ==============================
+dbt_healthcare/dbt_healthcare/target/
+dbt_healthcare/dbt_healthcare/logs/
+dbt_healthcare/dbt_healthcare/dbt_packages/
+
+# ==============================
+# Power BI
+# ==============================
+*.pbix
+*.pbit
+
+# ==============================
+# OS / Editor
+# ==============================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ==============================
+# Temporary / generated files
+# ==============================
+*.tmp
+*.temp
+*.log

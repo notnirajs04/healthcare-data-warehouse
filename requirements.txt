@@ -1,0 +1,9 @@
+pandas
+numpy
+requests
+python-dotenv
+snowflake-connector-python
+jupyter
+ipykernel
+dbt-core==1.12.5
+dbt-snowflake==1.12.1

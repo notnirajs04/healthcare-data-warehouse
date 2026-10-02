@@ -1,0 +1,114 @@
+version: 2
+
+models:
+
+  # ============================================================
+  # STAGING
+  # ============================================================
+
+  - name: stg_ehr_encounters
+    description: >
+      Staging model containing cleaned and type-converted healthcare
+      encounter records sourced from the Snowflake RAW layer.
+
+    columns:
+
+      - name: encounter_id
+        description: Unique identifier for each healthcare encounter.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: patient_id
+        description: Source identifier for the patient.
+        data_tests:
+          - not_null
+
+
+  # ============================================================
+  # PATIENT DIMENSION
+  # ============================================================
+
+  - name: dim_patient
+    description: >
+      Patient dimension containing one row per unique patient.
+
+    columns:
+
+      - name: patient_key
+        description: Warehouse-generated surrogate key for the patient.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: patient_id
+        description: Source-system patient identifier.
+        data_tests:
+          - not_null
+          - unique
+
+
+  # ============================================================
+  # DATE DIMENSION
+  # ============================================================
+
+  - name: dim_date
+    description: >
+      Calendar dimension containing one row per calendar date
+      from 2020-01-01 through 2024-12-31.
+
+    columns:
+
+      - name: date_key
+        description: Date surrogate key in YYYYMMDD format.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: full_date
+        description: Calendar date.
+        data_tests:
+          - not_null
+          - unique
+
+
+  # ============================================================
+  # ENCOUNTER FACT
+  # ============================================================
+
+  - name: fact_encounter
+    description: >
+      Encounter-level fact table. The grain is one row per
+      healthcare encounter.
+
+    columns:
+
+      - name: encounter_key
+        description: Warehouse-generated surrogate key for the encounter.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: encounter_id
+        description: Source-system encounter identifier.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: patient_key
+        description: Foreign key to dim_patient.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_patient')
+                field: patient_key
+
+      - name: encounter_date_key
+        description: Foreign key to dim_date.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
